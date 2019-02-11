@@ -37,7 +37,7 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: ['@/plugins/vuetify'],
+  plugins: ['@/plugins/vuetify', '@/plugins/axios'],
 
   /*
   ** Nuxt.js modules
@@ -45,12 +45,22 @@ module.exports = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/dotenv',
   ],
   /*
   ** Axios module configuration
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+    proxy: true,
+  },
+
+  proxy: {
+    '/api': 'https://api.clickup.com',
+  },
+
+  env: {
+    CLICKUP_ACCESS_TOKEN: process.env.CLICKUP_ACCESS_TOKEN,
   },
 
   /*
