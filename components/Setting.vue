@@ -78,7 +78,7 @@
         <v-btn
           color="primary"
           @click="toConfirmSetting"
-          :disabled="(!isValidProjectId || (isEnabledList && !isValidListId))"
+          :disabled="!(isValidProjectId || (isEnabledList && isValidListId))"
         >Continue</v-btn>
 
         <v-btn flat @click="e1 = 1">Cancel</v-btn>
@@ -152,7 +152,13 @@ export default {
   },
   methods: {
     ...mapActions(['fetchTeams', 'fetchSpaces', 'fetchProjects', 'fetchTasks']),
-    ...mapMutations(['setTeamId', 'setSpaceId', 'setProjectId', 'setListId']),
+    ...mapMutations([
+      'setTeamId',
+      'setSpaceId',
+      'setProjectId',
+      'setListId',
+      'setIsFinishedSetting',
+    ]),
     toConfirmTeam() {
       this.e1 = 2
       this.fetchSpaces()
@@ -166,7 +172,11 @@ export default {
       this.fetchTasks().then(() => (this.isEnabledSetting = true))
     },
     finishSetting() {
-      confirm('Complete the setup?')
+      if (!confirm('Complete the setup?')) {
+        return
+      }
+      this.setIsFinishedSetting(true)
+      this.$router.push('/')
     },
   },
 }

@@ -49,6 +49,7 @@ export const state = () => ({
   spaceId: null,
   projectId: null,
   listId: null,
+  isFinishedSetting: false,
 })
 
 export const getters = {
@@ -76,6 +77,9 @@ export const getters = {
       getters.isValidProjectId &&
       getters.isValidTasks
     )
+  },
+  isValidListId: state => {
+    return state.listId !== null
   },
   settings: (state, getters) => {
     return getters.isValidSettings
@@ -115,6 +119,9 @@ export const mutations = {
   },
   setListId(state, listId) {
     state.listId = listId
+  },
+  setIsFinishedSetting(state, isFinishedSetting) {
+    state.isFinishedSetting = isFinishedSetting
   },
 }
 
