@@ -10,49 +10,25 @@
 import moment from 'moment'
 import GanttHeader from '@/node_modules/gantt-elastic/dist/Header.common.js'
 import GanttElastic from '@/node_modules/gantt-elastic/dist/GanttElastic.common.min.js'
+import { Task } from '@/models/unit.js'
 
 const tasks = [
-  {
-    id: 1,
-    label: 'Y1234 ほげほげをほげげにしたいタスク',
-    start: moment(),
-    duration: 5 * 24 * 60 * 60,
-    progress: 85,
-    type: 'task',
-    assigne: 'ya-sato',
-    style: {
-      base: {
-        fill: '#0287D0',
-        stroke: '#0077C0',
-      },
-    },
-  },
-  {
-    id: 2,
-    label: 'Y2345 ほげほげをほげげにしたいタスク',
-    start: moment('20180210 11:11:11'),
-    duration: 5 * 24 * 60 * 60,
-    progress: 85,
-    type: 'task',
-    assigne: 'ya-sato',
-    style: {
-      base: {
-        fill: '#0287D0',
-        stroke: '#0077C0',
-      },
-    },
-  },
-  {
-    id: 3,
-    label: 'Y3456 ほげほげをほげげにしたいタスク',
-    start: moment('20180209 11:11:11'),
-    duration: 1 * 24 * 60 * 60,
-    progress: 100,
-    type: 'task',
-    assigne: 'ya-sato',
-  },
-]
-
+  new Task(1, 'ホゲホゲタスク', 'ya-sato', moment(), moment().add(3, 'days')),
+  new Task(2, 'ホゲホゲタスク', 'ya-sato', moment(), moment().add(3, 'days')),
+  new Task(3, 'ホゲホゲタスク', 'ya-sato', moment(), moment().add(3, 'days')),
+  new Task(4, 'ホゲホゲタスク', 'ya-sato', moment(), moment().add(3, 'days')),
+  new Task(5, 'ホゲホゲタスク', 'ya-sato', moment(), moment().add(3, 'days')),
+  new Task(6, 'ホゲホゲタスク', 'ya-sato', moment(), moment().add(3, 'days')),
+  new Task(7, 'ホゲホゲタスク', 'ya-sato', moment(), moment().add(3, 'days')),
+  new Task(8, 'ホゲホゲタスク', 'ya-sato', moment(), moment().add(3, 'days')),
+  new Task(9, 'ホゲホゲタスク', 'ya-sato', moment(), moment().add(3, 'days')),
+  new Task(10, 'ホゲホゲタスク', 'ya-sato', moment(), moment().add(3, 'days')),
+  new Task(11, 'ホゲホゲタスク', 'ya-sato', moment(), moment().add(3, 'days')),
+  new Task(12, 'ホゲホゲタスク', 'ya-sato', moment(), moment().add(3, 'days')),
+  new Task(13, 'ホゲホゲタスク', 'ya-sato', moment(), moment().add(3, 'days')),
+  new Task(14, 'ホゲホゲタスク', 'ya-sato', moment(), moment().add(3, 'days')),
+  new Task(15, 'ホゲホゲタスク', 'ya-sato', moment(), moment().add(3, 'days')),
+].map(e => e.toClickupTask())
 const options = {
   title: {
     label: 'ほげぐるずタスク',
