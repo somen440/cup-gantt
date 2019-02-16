@@ -1,19 +1,21 @@
 <template>
-  <v-layout column justify-center align-center>
-    <v-flex xs12 sm8 md6>
-      <p>図</p>
-    </v-flex>
-  </v-layout>
+  <v-content>
+    <v-container fluid>
+      <Setting v-if="!isFinishedSetting"/>
+      <ClickUpGantt v-if="isFinishedSetting"/>
+    </v-container>
+  </v-content>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import ClickUpGantt from '@/components/ClickUpGantt.vue'
+import Setting from '@/components/Setting.vue'
 
 export default {
-  created() {
-    if (!this.isFinishedSetting) {
-      this.$router.push('/setting')
-    }
+  components: {
+    ClickUpGantt,
+    Setting,
   },
   computed: {
     ...mapState(['isFinishedSetting']),

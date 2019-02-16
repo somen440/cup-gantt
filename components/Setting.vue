@@ -1,5 +1,5 @@
 <template>
-  <v-stepper v-model="e1">
+  <v-stepper v-model="e1" v-if="!isFinishedSetting">
     <v-stepper-header>
       <v-stepper-step :complete="e1 > 1" step="1">チーム選択</v-stepper-step>
 
@@ -137,7 +137,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['teams', 'spaces', 'projects', 'tasks']),
+    ...mapState(['teams', 'spaces', 'projects', 'tasks', 'isFinishedSetting']),
     ...mapGetters([
       'lists',
       'isValidTeamId',
@@ -176,7 +176,6 @@ export default {
         return
       }
       this.setIsFinishedSetting(true)
-      this.$router.push('/')
     },
   },
 }

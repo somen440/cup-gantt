@@ -1,14 +1,9 @@
-import moment from 'moment'
-
 const STYLE_IN_PROGRESS = {
   base: {
     fill: '#0287D0',
     stroke: '#0077C0',
   },
 }
-
-const yesterday = moment().subtract(1, 'days')
-const nextWeeekDay = moment().add(7, 'days')
 
 const Unit = class {
   constructor(id, name, label) {
@@ -47,10 +42,8 @@ export class Task extends Unit {
   constructor(id, name, assigne, startedAt, endedAt) {
     super(id, name, 'task')
     this.assigne = assigne
-    this.start = startedAt.isBefore(yesterday) ? yesterday : startedAt
-    this.duration = endedAt.isAfter(nextWeeekDay)
-      ? nextWeeekDay.diff(startedAt, 'seconds')
-      : endedAt.diff(startedAt, 'seconds')
+    this.start = startedAt
+    this.duration = endedAt.diff(startedAt, 'seconds')
     this.progress = 0 // kari
     this.style = STYLE_IN_PROGRESS
   }

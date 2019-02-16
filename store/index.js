@@ -142,14 +142,13 @@ export const actions = {
           e.assignees.length > 0
             ? e.assignees.map(e => e.username).join(',')
             : 'undefinedd'
-        console.log(assigne)
         const startedAt =
           e.start_date !== null
-            ? moment.unix(e.start_date)
-            : moment.unix(e.date_created)
+            ? moment.unix(e.start_date / 1000)
+            : moment.unix(e.date_created / 1000)
         const endedAt =
           e.due_date !== null
-            ? moment.unix(e.due_date)
+            ? moment.unix(e.due_date / 1000)
             : startedAt.clone().add(7, 'days') // 終了日が設定されていないものは適当に 1 週間後にする
         return new Task(id++, e.name, assigne, startedAt, endedAt)
       }),
