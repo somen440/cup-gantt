@@ -1,44 +1,6 @@
 import moment from 'moment'
 import qs from 'qs'
-
-const Unit = class {
-  constructor(id, name, label) {
-    this.id = id
-    this.name = name
-    this.label = label
-  }
-}
-const Team = class extends Unit {
-  constructor(id, name) {
-    super(id, name, 'team')
-  }
-}
-const Space = class extends Unit {
-  constructor(id, name) {
-    super(id, name, 'space')
-  }
-}
-const Project = class extends Unit {
-  constructor(id, name, lists) {
-    super(id, name, 'project')
-    this.lists = lists
-  }
-}
-const List = class extends Unit {
-  constructor(id, name) {
-    super(id, name, 'list')
-  }
-}
-const Assigne = class extends Unit {}
-const Task = class extends Unit {
-  constructor(id, name, detail, assigne, startedAt, endedAt) {
-    super(id, name, 'task')
-    this.detail = detail
-    this.assigne = assigne
-    this.startedAt = startedAt
-    this.endedAt = endedAt
-  }
-}
+import { Team, Space, Project, List, Task } from '@/models/unit.js'
 
 export const state = () => ({
   teams: [], // Team[]
@@ -56,7 +18,7 @@ export const getters = {
   lists: state => {
     return state.projectId !== null
       ? state.projects.find(e => e.id === state.projectId).lists
-      : null
+      : []
   },
   isValidTeamId: state => {
     return state.teamId !== null
@@ -88,10 +50,13 @@ export const getters = {
           state.spaces.find(e => e.id === state.spaceId),
           state.projects.find(e => e.id === state.projectId),
           getters.isValidListId
-            ? state.projects.find(e => e.id === state.listId)
+            ? getters.lists.find(e => e.id === state.listId)
             : new List(-1, '指定なし'),
         ]
       : []
+  },
+  clickupTasks: state => {
+    return state.tasks.map(e => e.toClickupTask())
   },
 }
 
@@ -109,16 +74,16 @@ export const mutations = {
     state.tasks = tasks
   },
   setTeamId(state, teamId) {
-    state.teamId = teamId
+    state.teamId = Number(teamId)
   },
   setSpaceId(state, spaceId) {
-    state.spaceId = spaceId
+    state.spaceId = Number(spaceId)
   },
   setProjectId(state, projectId) {
-    state.projectId = projectId
+    state.projectId = Number(projectId)
   },
   setListId(state, listId) {
-    state.listId = listId
+    state.listId = Number(listId)
   },
   setIsFinishedSetting(state, isFinishedSetting) {
     state.isFinishedSetting = isFinishedSetting
@@ -128,12 +93,12 @@ export const mutations = {
 export const actions = {
   async fetchTeams({ commit }) {
     const { teams } = await this.$axios.$get('/api/v1/team')
-    commit('setTeams', teams.map(e => new Team(e.id, e.name)))
+    commit('setTeams', teams.map(e => new Team(Number(e.id), e.name)))
   },
   async fetchSpaces({ commit, state }) {
     const { teamId } = state
     const { spaces } = await this.$axios.$get(`/api/v1/team/${teamId}/space`)
-    commit('setSpaces', spaces.map(e => new Space(e.id, e.name)))
+    commit('setSpaces', spaces.map(e => new Space(Number(e.id), e.name)))
   },
   async fetchProjects({ commit, state }) {
     const { spaceId } = state
@@ -144,9 +109,9 @@ export const actions = {
       'setProjects',
       projects.map(e => {
         return new Project(
-          e.id,
+          Number(e.id),
           e.name,
-          e.lists.map(e => new List(e.id, e.name)),
+          e.lists.map(e => new List(Number(e.id), e.name)),
         )
       }),
     )
@@ -154,7 +119,6 @@ export const actions = {
   async fetchTasks({ commit, state }) {
     const { teamId, listId, projectId } = state
     const params = {
-      subtasks: true,
       project_ids: [projectId],
     }
 
@@ -169,17 +133,25 @@ export const actions = {
         return qs.stringify(params)
       },
     })
+
+    let id = 1
     commit(
       'setTasks',
       tasks.map(e => {
-        return new Task(
-          e.id,
-          e.name,
-          e.text_content,
-          e.assignees.map(e => new Assigne(e.id, e.username)),
-          e.start_date !== null ? moment(e.start_date) : moment(e.date_created),
-          e.due_date !== null ? moment(e.due_date) : null,
-        )
+        const assigne =
+          e.assignees.length > 0
+            ? e.assignees.map(e => e.username).join(',')
+            : 'undefinedd'
+        console.log(assigne)
+        const startedAt =
+          e.start_date !== null
+            ? moment.unix(e.start_date)
+            : moment.unix(e.date_created)
+        const endedAt =
+          e.due_date !== null
+            ? moment.unix(e.due_date)
+            : startedAt.clone().add(7, 'days') // 終了日が設定されていないものは適当に 1 週間後にする
+        return new Task(id++, e.name, assigne, startedAt, endedAt)
       }),
     )
   },
