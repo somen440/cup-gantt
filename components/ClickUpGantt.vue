@@ -7,14 +7,20 @@
 </template>
 
 <script>
-import moment from 'moment'
+import moment from 'moment/moment'
 import GanttHeader from '@/node_modules/gantt-elastic/dist/Header.common.js'
 import GanttElastic from '@/node_modules/gantt-elastic/dist/GanttElastic.common.min.js'
 import { Task } from '@/models/unit.js'
 
 const tasks = [
-  new Task(1, 'ホゲホゲタスク', 'ya-sato', moment(), moment().add(3, 'days')),
-  new Task(2, 'ホゲホゲタスク', 'ya-sato', moment(), moment().add(3, 'days')),
+  new Task(
+    1,
+    'ホゲホゲタスク',
+    'ya-sato',
+    moment().subtract(3, 'days'),
+    moment().add(3, 'days'),
+  ),
+  new Task(2, 'ホゲホゲタスク', 'ya-sato', moment(), moment().add(10, 'days')),
   new Task(3, 'ホゲホゲタスク', 'ya-sato', moment(), moment().add(3, 'days')),
   new Task(4, 'ホゲホゲタスク', 'ya-sato', moment(), moment().add(3, 'days')),
   new Task(5, 'ホゲホゲタスク', 'ya-sato', moment(), moment().add(3, 'days')),
