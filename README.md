@@ -4,7 +4,7 @@
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 $ npm install
 
@@ -24,3 +24,5 @@ For detailed explanation on how things work, checkout [Nuxt.js docs](https://nux
 ![clickuptasks](https://user-images.githubusercontent.com/10706586/52896585-93f85580-320d-11e9-88bd-d67dfdbae8b2.png)
 
 ![charts](https://user-images.githubusercontent.com/10706586/52896589-a07cae00-320d-11e9-9a33-221cd6d0b58f.png)
+
+This software is released under the MIT License, see LICENSE.
