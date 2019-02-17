@@ -30,7 +30,7 @@ For detailed explanation on how things work, checkout [Nuxt.js docs](https://nux
 
 ![clickuptasks](https://user-images.githubusercontent.com/10706586/52896585-93f85580-320d-11e9-88bd-d67dfdbae8b2.png)
 
-![cd47ed7516](https://user-images.githubusercontent.com/10706586/52913351-ab643b00-3300-11e9-9ca2-bfbdeabc6217.png)
+![689e868879](https://user-images.githubusercontent.com/10706586/52914041-1153c100-3307-11e9-88d3-cc66ddd75687.png)
 
 ## LICENSE
 
