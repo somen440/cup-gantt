@@ -5,6 +5,11 @@
 ## Build Setup
 
 ```bash
+# generate .env and edit
+$ cp sample.env .env
+$ vi .env
+CLICKUP_ACCESS_TOKEN={YOUR_CLICKUP_ACCESS_TOKEN}
+
 # install dependencies
 $ yarn install
 
