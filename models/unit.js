@@ -39,13 +39,14 @@ export class List extends Unit {
 }
 
 export class Task extends Unit {
-  constructor(id, name, assigne, startedAt, endedAt) {
+  constructor(id, name, assigne, startedAt, endedAt, parentId) {
     super(id, name, 'task')
     this.assigne = assigne
     this.start = startedAt
     this.duration = endedAt.diff(startedAt, 'seconds')
     this.progress = 0 // kari
     this.style = STYLE_IN_PROGRESS
+    this.parentId = parentId
   }
 
   toClickupTask() {
@@ -58,6 +59,7 @@ export class Task extends Unit {
       type: 'task',
       assigne: this.assigne,
       style: this.style,
+      parentId: this.parentId,
     }
   }
 }

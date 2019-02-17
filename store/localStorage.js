@@ -129,6 +129,9 @@ export const actions = {
   async fetchTasks({ commit, state }) {
     const { teamId, listId, projectId } = state
     const params = {
+      subtasks: true,
+      order_by: 'due_date',
+      reverse: true,
       project_ids: [projectId],
     }
 
@@ -144,7 +147,6 @@ export const actions = {
       },
     })
 
-    let id = 1
     commit(
       'setTasks',
       tasks.map(e => {
@@ -161,11 +163,12 @@ export const actions = {
             ? moment.unix(e.due_date / 1000)
             : startedAt.clone().add(7, 'days') // 終了日が設定されていないものは適当に 1 週間後にする
         return new Task(
-          id++,
+          e.id,
           e.name,
           assigne,
           startedAt,
           endedAt,
+          e.parent,
         ).toClickupTask()
       }),
     )
