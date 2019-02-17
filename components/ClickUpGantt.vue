@@ -1,20 +1,21 @@
 <template>
-  <div>
+  <div v-if="!isProgressed">
     <GanttElastic :tasks="ganttTasks" :options="options">
       <GanttHeader slot="header"></GanttHeader>
     </GanttElastic>
     <v-form>
-      <v-container>
-        <v-layout>
-          <v-btn color="success" @click="resetting">Resetting</v-btn>
-        </v-layout>
-      </v-container>
+      <v-btn color="success" @click="resetting">
+        <v-icon>settings</v-icon>Resetting
+      </v-btn>
+      <v-btn color="warning" @click="reGetTask">
+        <v-icon :loading="isProgressed">update</v-icon>Re get task
+      </v-btn>
     </v-form>
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import GanttHeader from '@/node_modules/gantt-elastic/dist/Header.common.js'
 import GanttElastic from '@/node_modules/gantt-elastic/src/GanttElastic.vue'
 
@@ -80,7 +81,7 @@ export default {
     GanttElastic,
   },
   data() {
-    return { ganttTasks, options }
+    return { ganttTasks, options, isProgressed: false }
   },
   computed: {
     ...mapState('localStorage', ['tasks']),
@@ -92,8 +93,16 @@ export default {
   },
   methods: {
     ...mapMutations('localStorage', ['setIsFinishedSetting']),
+    ...mapActions('localStorage', ['fetchTasks']),
     resetting() {
       this.setIsFinishedSetting(false)
+    },
+    reGetTask() {
+      this.isProgressed = true
+      this.fetchTasks().then(_ => {
+        this.ganttTasks = JSON.parse(JSON.stringify(this.tasks))
+        this.isProgressed = false
+      })
     },
   },
 }
