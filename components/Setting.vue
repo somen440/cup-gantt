@@ -19,6 +19,7 @@
     <v-stepper-items>
       <v-stepper-content step="1">
         <v-select
+          :value="teamId"
           @input="setTeamId"
           v-validate="'required'"
           :items="teams"
@@ -34,6 +35,7 @@
 
       <v-stepper-content step="2">
         <v-select
+          :value="spaceId"
           @input="setSpaceId"
           v-validate="'required'"
           :items="spaces"
@@ -51,6 +53,7 @@
 
       <v-stepper-content step="3">
         <v-select
+          :value="projectId"
           @input="setProjectId"
           v-validate="'required'"
           :items="projects"
@@ -64,6 +67,7 @@
         <v-checkbox v-model="isEnabledList" label="リストを選択する"></v-checkbox>
 
         <v-select
+          :value="listId"
           v-if="isEnabledList"
           @input="setListId"
           v-validate="'required'"
@@ -142,6 +146,10 @@ export default {
       'projects',
       'tasks',
       'isFinishedSetting',
+      'teamId',
+      'spaceId',
+      'projectId',
+      'listId',
     ]),
     ...mapGetters('localStorage', [
       'lists',
@@ -153,7 +161,9 @@ export default {
     ]),
   },
   created() {
-    this.fetchTeams()
+    if (!this.isValidTeamId) {
+      this.fetchTeams()
+    }
   },
   methods: {
     ...mapActions('localStorage', [

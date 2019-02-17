@@ -44,14 +44,13 @@ export const getters = {
     return state.listId !== null
   },
   settings: (state, getters) => {
+    const list = getters.lists.find(e => e.id === state.listId)
     return getters.isValidSettings
       ? [
           state.teams.find(e => e.id === state.teamId),
           state.spaces.find(e => e.id === state.spaceId),
           state.projects.find(e => e.id === state.projectId),
-          getters.isValidListId
-            ? getters.lists.find(e => e.id === state.listId)
-            : new List(-1, '指定なし'),
+          list !== undefined ? list : new List(-1, '指定なし'),
         ]
       : []
   },
