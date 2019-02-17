@@ -58,6 +58,9 @@ export const getters = {
   clickupTasks: state => {
     return state.tasks.map(e => e.toClickupTask())
   },
+  projectName: state => {
+    return state.projects.find(e => e.id === state.projectId).name
+  },
 }
 
 export const mutations = {

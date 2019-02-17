@@ -13,7 +13,7 @@ import GanttElastic from '@/node_modules/gantt-elastic/dist/GanttElastic.common.
 
 const options = {
   title: {
-    label: 'ほげぐるずタスク',
+    label: '',
     html: false,
   },
   taskList: {
@@ -75,7 +75,10 @@ export default {
     return { options }
   },
   computed: {
-    ...mapGetters(['clickupTasks']),
+    ...mapGetters(['clickupTasks', 'projectName']),
+  },
+  created() {
+    this.options.title.label = this.projectName
   },
 }
 </script>
