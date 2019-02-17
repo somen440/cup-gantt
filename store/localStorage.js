@@ -60,6 +60,16 @@ export const getters = {
 }
 
 export const mutations = {
+  initialize(state) {
+    state.teams = []
+    state.spaces = []
+    state.projects = []
+    state.teamId = null
+    state.spaceId = null
+    state.projectId = null
+    state.listId = null
+    state.isFinishedSetting = false
+  },
   setTeams(state, teams) {
     state.teams = teams
   },
@@ -80,6 +90,7 @@ export const mutations = {
   },
   setProjectId(state, projectId) {
     state.projectId = Number(projectId)
+    state.listId = null
   },
   setListId(state, listId) {
     state.listId = Number(listId)

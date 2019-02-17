@@ -82,7 +82,7 @@
         <v-btn
           color="primary"
           @click="toConfirmSetting"
-          :disabled="!(isValidProjectId || (isEnabledList && isValidListId))"
+          :disabled="!(isValidProjectId && (!isEnabledList || isEnabledList && isValidListId))"
         >Continue</v-btn>
 
         <v-btn flat @click="e1 = 1">Cancel</v-btn>
