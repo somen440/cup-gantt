@@ -154,7 +154,7 @@ export const actions = {
         const assigne =
           e.assignees.length > 0
             ? e.assignees.map(e => e.username).join(',')
-            : 'undefinedd'
+            : 'undefined'
         const startedAt =
           e.start_date !== null
             ? moment.unix(e.start_date / 1000)
@@ -163,7 +163,10 @@ export const actions = {
           e.due_date !== null
             ? moment.unix(e.due_date / 1000)
             : startedAt.clone().add(7, 'days') // 終了日が設定されていないものは適当に 1 週間後にする
-        const depends = dependsTasks.reverse().find(e => e.assigne === assigne)
+        const depends = dependsTasks
+          .reverse()
+          .filter(e => e.assigne !== 'undefined')
+          .find(e => e.assigne === assigne)
         const taskObject = new Task(
           e.id,
           e.name,
