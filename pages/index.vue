@@ -1,10 +1,8 @@
 <template>
-  <v-content>
-    <v-container fluid>
-      <Setting v-if="!isFinishedSetting"/>
-      <ClickUpGantt v-if="isFinishedSetting"/>
-    </v-container>
-  </v-content>
+  <v-container fluid v-show="loaded">
+    <Setting v-if="!isFinishedSetting"/>
+    <ClickUpGantt v-if="isFinishedSetting"/>
+  </v-container>
 </template>
 
 <script>
@@ -18,7 +16,10 @@ export default {
     Setting,
   },
   computed: {
-    ...mapState(['isFinishedSetting']),
+    ...mapState('localStorage', ['isFinishedSetting']),
+    loaded() {
+      return this.$store.state.localStorage.status
+    },
   },
 }
 </script>

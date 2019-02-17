@@ -55,9 +55,6 @@ export const getters = {
         ]
       : []
   },
-  clickupTasks: state => {
-    return state.tasks.map(e => e.toClickupTask())
-  },
   projectName: state => {
     return state.projects.find(e => e.id === state.projectId).name
   },
@@ -153,7 +150,13 @@ export const actions = {
           e.due_date !== null
             ? moment.unix(e.due_date / 1000)
             : startedAt.clone().add(7, 'days') // 終了日が設定されていないものは適当に 1 週間後にする
-        return new Task(id++, e.name, assigne, startedAt, endedAt)
+        return new Task(
+          id++,
+          e.name,
+          assigne,
+          startedAt,
+          endedAt,
+        ).toClickupTask()
       }),
     )
   },

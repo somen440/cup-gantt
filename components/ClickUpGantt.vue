@@ -1,16 +1,24 @@
 <template>
   <div>
-    <GanttElastic :tasks="clickupTasks" :options="options">
+    <GanttElastic :tasks="ganttTasks" :options="options">
       <GanttHeader slot="header"></GanttHeader>
     </GanttElastic>
+    <v-form>
+      <v-container>
+        <v-layout>
+          <v-btn color="success" @click="resetting">Resetting</v-btn>
+        </v-layout>
+      </v-container>
+    </v-form>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters, mapMutations } from 'vuex'
 import GanttHeader from '@/node_modules/gantt-elastic/dist/Header.common.js'
-import GanttElastic from '@/node_modules/gantt-elastic/dist/GanttElastic.common.min.js'
+import GanttElastic from '@/node_modules/gantt-elastic/src/GanttElastic.vue'
 
+const ganttTasks = []
 const options = {
   title: {
     label: '',
@@ -72,13 +80,21 @@ export default {
     GanttElastic,
   },
   data() {
-    return { options }
+    return { ganttTasks, options }
   },
   computed: {
-    ...mapGetters(['clickupTasks', 'projectName']),
+    ...mapState('localStorage', ['tasks']),
+    ...mapGetters('localStorage', ['projectName']),
   },
   created() {
+    this.ganttTasks = JSON.parse(JSON.stringify(this.tasks))
     this.options.title.label = this.projectName
+  },
+  methods: {
+    ...mapMutations('localStorage', ['setIsFinishedSetting']),
+    resetting() {
+      this.setIsFinishedSetting(false)
+    },
   },
 }
 </script>

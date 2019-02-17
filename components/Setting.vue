@@ -1,5 +1,5 @@
 <template>
-  <v-stepper v-model="e1" v-if="!isFinishedSetting">
+  <v-stepper v-model="e1">
     <v-stepper-header>
       <v-stepper-step :complete="e1 > 1" step="1">チーム選択</v-stepper-step>
 
@@ -85,7 +85,7 @@
       </v-stepper-content>
 
       <v-stepper-content step="4">
-        <v-card v-if="isEnabledSetting">
+        <v-card>
           <v-container>
             <v-flex>
               <v-list two-line subheader>
@@ -108,8 +108,8 @@
                     <v-icon>label</v-icon>
                   </v-list-tile-avatar>
                   <v-list-tile-content>
-                    <v-list-tile-title>{{ task.name }}</v-list-tile-title>
-                    <v-list-tile-sub-title>{{ task.label }}</v-list-tile-sub-title>
+                    <v-list-tile-title>task: {{ task.label }}</v-list-tile-title>
+                    <v-list-tile-sub-title>assigne: {{ task.assigne }}</v-list-tile-sub-title>
                   </v-list-tile-content>
                 </v-list-tile>
               </v-list>
@@ -133,12 +133,17 @@ export default {
     return {
       e1: 0,
       isEnabledList: false,
-      isEnabledSetting: false,
     }
   },
   computed: {
-    ...mapState(['teams', 'spaces', 'projects', 'tasks', 'isFinishedSetting']),
-    ...mapGetters([
+    ...mapState('localStorage', [
+      'teams',
+      'spaces',
+      'projects',
+      'tasks',
+      'isFinishedSetting',
+    ]),
+    ...mapGetters('localStorage', [
       'lists',
       'isValidTeamId',
       'isValidSpaceId',
@@ -151,8 +156,13 @@ export default {
     this.fetchTeams()
   },
   methods: {
-    ...mapActions(['fetchTeams', 'fetchSpaces', 'fetchProjects', 'fetchTasks']),
-    ...mapMutations([
+    ...mapActions('localStorage', [
+      'fetchTeams',
+      'fetchSpaces',
+      'fetchProjects',
+      'fetchTasks',
+    ]),
+    ...mapMutations('localStorage', [
       'setTeamId',
       'setSpaceId',
       'setProjectId',
@@ -169,7 +179,7 @@ export default {
     },
     toConfirmSetting() {
       this.e1 = 4
-      this.fetchTasks().then(() => (this.isEnabledSetting = true))
+      this.fetchTasks().then(() => console.log(this.tasks))
     },
     finishSetting() {
       if (!confirm('Complete the setup?')) {
