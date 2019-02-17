@@ -25,7 +25,7 @@ For detailed explanation on how things work, checkout [Nuxt.js docs](https://nux
 
 ![clickuptasks](https://user-images.githubusercontent.com/10706586/52896585-93f85580-320d-11e9-88bd-d67dfdbae8b2.png)
 
-![charts](https://user-images.githubusercontent.com/10706586/52896589-a07cae00-320d-11e9-9a33-221cd6d0b58f.png)
+![cd47ed7516](https://user-images.githubusercontent.com/10706586/52913351-ab643b00-3300-11e9-9ca2-bfbdeabc6217.png)
 
 ## LICENSE
 
