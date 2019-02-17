@@ -19,6 +19,7 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import GanttHeader from '@/node_modules/gantt-elastic/dist/Header.common.js'
 import GanttElastic from '@/node_modules/gantt-elastic/src/GanttElastic.vue'
 
+let no = 1
 const ganttTasks = []
 const options = {
   title: {
@@ -30,7 +31,7 @@ const options = {
       {
         id: 1,
         label: 'ID',
-        value: 'id',
+        value: _ => no++,
         width: 40,
       },
       {

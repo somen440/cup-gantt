@@ -147,6 +147,7 @@ export const actions = {
       },
     })
 
+    const dependsTasks = []
     commit(
       'setTasks',
       tasks.map(e => {
@@ -162,14 +163,18 @@ export const actions = {
           e.due_date !== null
             ? moment.unix(e.due_date / 1000)
             : startedAt.clone().add(7, 'days') // 終了日が設定されていないものは適当に 1 週間後にする
-        return new Task(
+        const depends = dependsTasks.reverse().find(e => e.assigne === assigne)
+        const taskObject = new Task(
           e.id,
           e.name,
           assigne,
           startedAt,
           endedAt,
           e.parent,
-        ).toClickupTask()
+          depends !== undefined ? [depends.id] : [],
+        )
+        dependsTasks.push(taskObject)
+        return taskObject.toClickupTask()
       }),
     )
   },
