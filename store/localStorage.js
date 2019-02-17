@@ -175,6 +175,7 @@ export const actions = {
           endedAt,
           e.parent,
           depends !== undefined ? [depends.id] : [],
+          e.status,
         )
         dependsTasks.push(taskObject)
         return taskObject.toClickupTask()

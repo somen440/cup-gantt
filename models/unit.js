@@ -1,10 +1,3 @@
-const STYLE_IN_PROGRESS = {
-  base: {
-    fill: '#0287D0',
-    stroke: '#0077C0',
-  },
-}
-
 const Unit = class {
   constructor(id, name, label) {
     this.id = id
@@ -39,15 +32,28 @@ export class List extends Unit {
 }
 
 export class Task extends Unit {
-  constructor(id, name, assigne, startedAt, endedAt, parentId, dependentOn) {
+  constructor(
+    id,
+    name,
+    assigne,
+    startedAt,
+    endedAt,
+    parentId,
+    dependentOn,
+    status,
+  ) {
     super(id, name, 'task')
     this.assigne = assigne
     this.start = startedAt
     this.duration = endedAt.diff(startedAt, 'seconds')
     this.progress = 0 // kari
-    this.style = STYLE_IN_PROGRESS
     this.parentId = parentId
     this.dependentOn = dependentOn
+    this.style = {
+      base: {
+        fill: status.color,
+      },
+    }
   }
 
   toClickupTask() {

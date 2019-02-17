@@ -101,6 +101,7 @@ export default {
     reGetTask() {
       this.isProgressed = true
       this.fetchTasks().then(_ => {
+        no = 1
         this.ganttTasks = JSON.parse(JSON.stringify(this.tasks))
         this.isProgressed = false
       })
